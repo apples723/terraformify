@@ -19,7 +19,7 @@ This script does a few things:
 2. Copies or updates (if a new version is relased) the necessary files for the script
 3. Adds `new_ec2` as an alias for easy use
 
-> _**Note:** The `new_ec2` alias is added to your [`~/.bash_profile`](ttps://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/) (will be created if it doesn't excist) during the install. The alias allows the script `generate_ec2_tf.sh` to be ran from anywhere._
+> _**Note:** The `new_ec2` alias is added to your [`~/.bash_profile`](ttps://scriptingosx.com/2017/04/about-bash_profile-and-bashrc-on-macos/) (will be created if it doesn't excist) during the install. The alias allows the script `terraformify.sh` to be ran from anywhere._
 
 
 ## **Usage**
@@ -27,10 +27,10 @@ This script does a few things:
 Usage: new_ec2 [OPTIONS]
   
 Options: 
-  -c <config file>    Specify the config file to use to generate the template. Can be either a file name or file path. If not specified will use ~/.tf_ec2_generator/tf_default.conf
+  -r <ue1/uw1>        Specify region config to use [required]
   -i                  Will initalize the terraform module that is created from the template. 
   -h                  Display this message
-  -u                  Update the default config. Useful to edit default config before each use, rather than writing a whole config each time.  
+  -u                  Update the config to be used. Uses region from -r flag.
 ```
 
 ### **The Config File**
@@ -39,23 +39,28 @@ The config file is used to generate the EC2 TF Module. It has a handful of varia
 
 ### **Config File Switches**
 
-#### **`-c`** 
+#### **`-r`** 
 
-This switch accepts a name of a config file in the current directory or a path to a config file. Example: 
+Specify the region you want to create the instance in. Will use a config file setup for that region. 
+
+Currently UW1 and UE1 are supported. Use lowercase in value. 
 
 ``` bash
-# use file in current directory 
-$ new_ec2 -c my_config.conf
-# use a file path
-$ new_ec2 -c ~/configs/UE1TST01.conf
+# UE1
+$ new_ec2 -r ue1
+# UW1
+$ new_ec2 -r uw1
 ```
+Config files are stored at `~/.terraformify/configs/`
 
 #### **`-u`**
 
-This is by far probably the most usefull part of this script. You can directly edit the default config by using this switch. It will open the default config (`tf_default.conf`) in vi and you can make the necessary changes and then save your changes. To edit in `vi` press the `i` key and make your changes. To exit and save your changes press `esc` and type `:wq`. For more info `vi` [this](tutorialspoint.com/unix/unix-vi-editor.htm) is a great guide. 
+This is by far probably the most usefull part of this script. You can directly edit the default config by using this switch. It will open the default region config in vi and you can make the necessary changes and then save your changes. To edit in `vi` press the `i` key and make your changes. To exit and save your changes press `esc` and type `:wq`. For more info `vi` [this](tutorialspoint.com/unix/unix-vi-editor.htm) is a great guide. 
+
+Note: you still need to specify the region using `-r`
 
 ``` bash
-$ new_ec2 -u
+$ new_ec2 -r ue1 -u
 ```
 ### **Other Coool Things:**
 
@@ -68,6 +73,7 @@ Will intialize the newly generate module immediately following the module's crea
 ### Version History 
 
 2021-05-20 - v0.1.0 - inital relase 
+2021-07-01 - v0.2.0 - add support for multiple regions
  
 ### ToDo
 

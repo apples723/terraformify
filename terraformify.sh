@@ -17,7 +17,13 @@ Options:
   -u                  Update the config to be used. Uses region from -r flag.
   
 " 
-script_path="$HOME/.terraformify" 
+#dev mode
+dev_mode=true
+if [ $dev_mode = "true" ]; then
+script_path="$HOME/.terraformify_dev"
+else
+script_path="$HOME/.terraformify"
+fi 
 
 #exit if not configured 
 if ! [ -d ${script_path} ] 
