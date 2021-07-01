@@ -7,7 +7,7 @@ Bash script to dynamically generate a TF module for an EC2 instance
 
 The bash script uses a configuration file and populates `main.tf` and `variables.tf` with the necessary values. It also copies the files that are standard across all INF EC2 TF Modules. 
 
-To make the most out of this script, it's written in such a way that it uses templates/config files all located at `$HOME\.tf_ec2_generator\` this makes it easy to manage template files/updates to the script. 
+To make the most out of this script, it's written in such a way that it uses templates/config files all located at `$HOME\.terraformify\` this makes it easy to manage template files/updates to the script. 
 
 
 ## **Installation**
@@ -73,6 +73,7 @@ Will intialize the newly generate module immediately following the module's crea
 ### Version History 
 
 2021-05-20 - v0.1.0 - inital relase 
+
 2021-07-01 - v0.2.0 - add support for multiple regions
  
 ### ToDo
