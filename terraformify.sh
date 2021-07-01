@@ -11,10 +11,11 @@ __usage="
 Usage: new_ec2 [OPTIONS]
   
 Options: 
-  -c <config file>    Specify the config file to use for the template. Can be either a file name or file path. If not specified will use ~/.terraformify/tf_default.conf
+  -r <ue1/uw1>        Specify region config to use [required]
   -i                  Will initalize the terraform module that is created from the template. 
   -h                  Display this message
-  -u                  Update the default config. Useful to edit default config before each use, rather then writing a whole config for each use 
+  -u                  Update the config to be used. Uses region from -r flag.
+  
 " 
 script_path="$HOME/.terraformify" 
 
@@ -28,15 +29,23 @@ fi
 
 #update config file function
 function update_config () {
-  vi ${script_path}/tf_default.conf
+  vi ${config_file}
   exit 0
 }
-
-
 while true;do   
   case "$1" in
-    -c | --config)
-      config_file=$2
+    -r | --region)
+      if [[ -z $2 ]]
+      then
+        echo "Region value was blank. Please specify (ue1/uw1)"
+        exit 1;
+      elif [[ $2 = "ue1" ]]
+      then
+        config_file=${script_path}/configs/ue1_default.conf
+      elif [[ $2 = "uw1" ]]
+      then
+        config_file=${script_path}/configs/uw1_default.conf
+      fi
       shift 2;;
     -u | --update) 
       update_config
@@ -60,8 +69,8 @@ done
 
 if [ -z "$config_file" ] 
 then
-  echo "no config file was specified using default..." 
-  config_file=${script_path}/tf_default.conf 
+  echo "No region was specified. Please specify with -r <ue1/uw1>" 
+  exit 1; 
 fi
 #template paths
 
